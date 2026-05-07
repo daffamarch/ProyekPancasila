@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { 
   LayoutDashboard, 
   FileEdit, 
-  Bell, 
+  History, 
   UserCircle, 
   FileText,
   Plus,
@@ -20,7 +20,7 @@ const Sidebar = () => {
   const menuItems = [
     { name: 'Dashboard', icon: LayoutDashboard, href: '/' },
     { name: 'Input Data', icon: FileEdit, href: '/input' },
-    { name: 'Notifikasi', icon: Bell, href: '/notifications' },
+    { name: 'History Input', icon: History, href: '/notifications' },
     { name: 'Profil Anak', icon: UserCircle, href: '/profil' },
     { name: 'Laporan', icon: FileText, href: '/reports' },
   ];
@@ -51,10 +51,10 @@ const Sidebar = () => {
         </nav>
 
         <div className="sidebar-footer">
-          <button className="btn-add">
+          <Link href="/profil/tambah" className="btn-add">
             <Plus size={20} />
-            <span>Tambah Data Baru</span>
-          </button>
+            <span>Tambah Santri Baru</span>
+          </Link>
         </div>
       </div>
     </aside>
