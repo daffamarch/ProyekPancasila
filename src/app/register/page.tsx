@@ -97,6 +97,8 @@ export default function RegisterPage() {
           <p>Sudah punya akun? <Link href="/login">Masuk Sekarang</Link></p>
         </div>
       </div>
+      
+      <p className="telkom-footer">Dibuat dengan hati oleh Mahasiswa Telkom University</p>
     </div>
   );
 }

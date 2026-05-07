@@ -22,6 +22,12 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const user = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
+    if (!user) {
+      window.location.href = '/login';
+      return;
+    }
+
     const fetchData = async () => {
       try {
         const [logsRes, targetsRes, notifsRes] = await Promise.all([

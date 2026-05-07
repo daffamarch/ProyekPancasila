@@ -2147,6 +2147,22 @@ select {
   text-decoration: underline;
 }
 
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #f0f4f0 0%, #ffffff 100%);
+}
+
+.telkom-footer {
+  text-align: center;
+  color: #999;
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 2rem;
+  padding-bottom: 2rem;
+}
+
 /* Avatar Initials */
 .avatar-initials {
   width: 100%;

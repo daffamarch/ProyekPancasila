@@ -83,6 +83,8 @@ export default function LoginPage() {
           <p>Belum punya akun? <Link href="/register">Daftar Akun Baru</Link></p>
         </div>
       </div>
+      
+      <p className="telkom-footer">Dibuat dengan hati oleh Mahasiswa Telkom University</p>
     </div>
   );
 }
