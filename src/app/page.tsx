@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { 
   BookOpen, 
   Users, 
@@ -24,13 +24,17 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthorized, setIsAuthorized] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const user = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
     if (!user) {
       router.replace('/login');
       return;
     }
     setIsAuthorized(true);
+  }, [router]);
+
+  useEffect(() => {
+    if (!isAuthorized) return;
 
     const fetchData = async () => {
       try {

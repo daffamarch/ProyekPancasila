@@ -10,7 +10,7 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
   const [isAuthorized, setIsAuthorized] = React.useState<boolean | null>(null);
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     const user = localStorage.getItem('user');
     setIsAuthorized(!!user);
     setShowMobileMenu(false); // Close menu on route change
