@@ -98,7 +98,7 @@ export default function RegisterPage() {
         </div>
       </div>
       
-      <p className="telkom-footer">Dibuat dengan hati oleh Mahasiswa Telkom University</p>
+      <p className="telkom-footer">Dibuat dengan hati ❤️ oleh Mahasiswa Telkom University</p>
     </div>
   );
 }

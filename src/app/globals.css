@@ -2025,6 +2025,7 @@ select {
 .auth-page {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #f0f4f0 0%, #ffffff 100%);
