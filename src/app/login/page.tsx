@@ -21,6 +21,7 @@ export default function LoginPage() {
       });
       const data = await res.json();
       if (res.ok) {
+        localStorage.clear(); // Clear all old data
         localStorage.setItem('user', JSON.stringify(data.user));
         router.push('/');
       } else {

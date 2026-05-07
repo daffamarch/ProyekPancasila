@@ -21,6 +21,7 @@ export default function RegisterPage() {
       });
       const data = await res.json();
       if (res.ok) {
+        localStorage.clear();
         alert('Registration successful! Please login.');
         router.push('/login');
       } else {

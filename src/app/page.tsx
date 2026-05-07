@@ -21,15 +21,18 @@ export default function Dashboard() {
   const [logs, setLogs] = useState<any[]>([]);
   const [targets, setTargets] = useState<any[]>([]);
   const [notifs, setNotifs] = useState<any[]>([]);
+  const [students, setStudents] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthorized, setIsAuthorized] = useState(false);
+  const [userData, setUserData] = useState<any>(null);
 
   useLayoutEffect(() => {
-    const user = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
-    if (!user) {
+    const userStr = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
+    if (!userStr) {
       router.replace('/login');
       return;
     }
+    setUserData(JSON.parse(userStr));
     setIsAuthorized(true);
   }, [router]);
 
@@ -38,18 +41,21 @@ export default function Dashboard() {
 
     const fetchData = async () => {
       try {
-        const [logsRes, targetsRes, notifsRes] = await Promise.all([
+        const [logsRes, targetsRes, notifsRes, studentsRes] = await Promise.all([
           fetch('/api/hafalan'),
           fetch('/api/targets'),
-          fetch('/api/notifications')
+          fetch('/api/notifications'),
+          fetch('/api/students')
         ]);
         const logsData = await logsRes.json();
         const targetsData = await targetsRes.json();
         const notifsData = await notifsRes.json();
+        const studentsData = await studentsRes.json();
         
         setLogs(Array.isArray(logsData) ? logsData : []);
         setTargets(Array.isArray(targetsData) ? targetsData : []);
         setNotifs(Array.isArray(notifsData) ? notifsData : []);
+        setStudents(Array.isArray(studentsData) ? studentsData : []);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -57,7 +63,7 @@ export default function Dashboard() {
       }
     };
     fetchData();
-  }, []);
+  }, [isAuthorized]);
 
   // Calculate trend data (last 7 days)
   const getTrendData = () => {
@@ -101,7 +107,7 @@ export default function Dashboard() {
   const stats = [
     { title: 'Selesai Hari Ini', value: `${logs.filter(l => new Date(l.createdAt).toDateString() === new Date().toDateString()).length} Hafalan`, change: '+15%', label: 'Dari kemarin', icon: BookOpen, color: '#52A435' },
     { title: 'Total Hafalan', value: `${logs.length} Data`, icon: Book, color: '#1A2B4B' },
-    { title: 'Santri Aktif', value: `${new Set(logs.map(l => l.studentName)).size} Anak`, avatars: logs.slice(0, 3).map(l => l.studentName), count: Math.max(0, new Set(logs.map(l => l.studentName)).size - 3), icon: Users, color: '#FF9F43' },
+    { title: 'Santri Aktif', value: `${students.length} Anak`, avatars: students.slice(0, 3).map(s => s.name), count: Math.max(0, students.length - 3), icon: Users, color: '#FF9F43' },
   ];
 
   const getGreeting = () => {
@@ -192,11 +198,11 @@ export default function Dashboard() {
             }}
           >
             <div className="u-info">
-              <span className="u-name">Ustadz Ahmad</span>
+              <span className="u-name">{userData?.name || 'Ustadz'}</span>
               <span className="u-role">Keluar</span>
             </div>
             <div className="u-avatar">
-              <div className="avatar-initials" style={{ width: '40px', height: '40px' }}>{getInitials('Ustadz Ahmad')}</div>
+              <div className="avatar-initials" style={{ width: '40px', height: '40px' }}>{getInitials(userData?.name || 'Ustadz')}</div>
             </div>
           </div>
         </div>

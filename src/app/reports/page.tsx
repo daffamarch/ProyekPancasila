@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { 
   FileText, 
   Download, 
@@ -30,14 +30,20 @@ export default function Reports() {
   const [notifs, setNotifs] = useState<any[]>([]);
   const [showNotifs, setShowNotifs] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
+  const [userData, setUserData] = useState<any>(null);
 
-  useEffect(() => {
-    const user = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
-    if (!user) {
+  useLayoutEffect(() => {
+    const userStr = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
+    if (!userStr) {
       router.replace('/login');
       return;
     }
+    setUserData(JSON.parse(userStr));
     setIsAuthorized(true);
+  }, [router]);
+
+  useEffect(() => {
+    if (!isAuthorized) return;
 
     const fetchData = async () => {
       try {
@@ -63,7 +69,7 @@ export default function Reports() {
       }
     };
     fetchData();
-  }, []);
+  }, [isAuthorized]);
 
   const toggleNotifs = async () => {
     const newState = !showNotifs;
@@ -141,9 +147,9 @@ export default function Reports() {
           </div>
           <div className="u-box glass">
             <div className="u-avatar">
-              <div className="avatar-initials" style={{ width: '32px', height: '32px', fontSize: '0.7rem' }}>{getInitials('Ustadz Ahmad')}</div>
+              <div className="avatar-initials" style={{ width: '32px', height: '32px', fontSize: '0.7rem' }}>{getInitials(userData?.name || 'Ustadz')}</div>
             </div>
-            <span className="u-name">Ustadz Ahmad</span>
+            <span className="u-name">{userData?.name || 'Ustadz'}</span>
           </div>
         </div>
       </header>
