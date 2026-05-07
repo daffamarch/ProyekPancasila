@@ -13,9 +13,11 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { getInitials } from '@/lib/utils';
 
 export default function Dashboard() {
+  const router = useRouter();
   const [logs, setLogs] = useState<any[]>([]);
   const [targets, setTargets] = useState<any[]>([]);
   const [notifs, setNotifs] = useState<any[]>([]);

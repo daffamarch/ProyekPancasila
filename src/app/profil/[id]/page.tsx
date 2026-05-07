@@ -20,10 +20,11 @@ import {
   Eye
 } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { getInitials } from '@/lib/utils';
 
 export default function ProfilDetail({ params }: { params: Promise<{ id: string }> }) {
+  const router = useRouter();
   const resolvedParams = use(params);
   const id = resolvedParams.id;
   const [student, setStudent] = useState<any>(null);
@@ -41,7 +42,7 @@ export default function ProfilDetail({ params }: { params: Promise<{ id: string 
   useEffect(() => {
     const user = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
     if (!user) {
-      window.location.href = '/login';
+      router.replace('/login');
       return;
     }
     setIsAuthorized(true);

@@ -17,9 +17,11 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { getInitials } from '@/lib/utils';
 
 export default function Reports() {
+  const router = useRouter();
   const [logs, setLogs] = useState<any[]>([]);
   const [students, setStudents] = useState<any[]>([]);
   const [surahs, setSurahs] = useState<any[]>([]);
@@ -32,7 +34,7 @@ export default function Reports() {
   useEffect(() => {
     const user = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
     if (!user) {
-      window.location.href = '/login';
+      router.replace('/login');
       return;
     }
     setIsAuthorized(true);

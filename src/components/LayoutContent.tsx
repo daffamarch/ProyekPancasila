@@ -47,41 +47,6 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
       <main className="main-content">
         {children}
       </main>
-
-      <style jsx>{`
-        .mobile-menu-toggle {
-          display: none;
-          position: fixed;
-          top: 20px;
-          left: 20px;
-          z-index: 1001;
-          background: var(--primary-green);
-          color: white;
-          padding: 10px;
-          border-radius: 12px;
-          box-shadow: 0 4px 12px rgba(82, 164, 53, 0.3);
-        }
-
-        @media (max-width: 1024px) {
-          .mobile-menu-toggle {
-            display: flex;
-          }
-          
-          .sidebar-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            z-index: 1000;
-            transform: translateX(-100%);
-            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-          }
-
-          .sidebar-wrapper.show {
-            transform: translateX(0);
-          }
-        }
-      `}</style>
     </div>
   );
 }
