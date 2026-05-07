@@ -36,8 +36,16 @@ export default function ProfilDetail({ params }: { params: Promise<{ id: string 
     murojaahStatus: '',
     keaktifanStatus: ''
   });
+  const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
+    const user = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
+    if (!user) {
+      window.location.href = '/login';
+      return;
+    }
+    setIsAuthorized(true);
+
     const fetchData = async () => {
       try {
         const [studentRes, logsRes, surahsRes] = await Promise.all([
@@ -111,6 +119,14 @@ export default function ProfilDetail({ params }: { params: Promise<{ id: string 
   };
 
   const currentPredikat = calculateMonthlyPredikat();
+
+  if (!isAuthorized) {
+    return (
+      <div style={{ minHeight: '100vh', background: 'var(--bg-main)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="loader-mini" style={{ width: '40px', height: '40px', color: 'var(--primary-green)' }}></div>
+      </div>
+    );
+  }
 
   if (isLoading) return <div className="profile-page"><p>Memuat profil...</p></div>;
   if (!student) return <div className="profile-page"><p>Santri tidak ditemukan.</p></div>;

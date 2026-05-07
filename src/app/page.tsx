@@ -20,13 +20,15 @@ export default function Dashboard() {
   const [targets, setTargets] = useState<any[]>([]);
   const [notifs, setNotifs] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
     const user = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
     if (!user) {
-      window.location.href = '/login';
+      router.replace('/login');
       return;
     }
+    setIsAuthorized(true);
 
     const fetchData = async () => {
       try {
@@ -128,6 +130,14 @@ export default function Dashboard() {
       }
     }
   };
+
+  if (!isAuthorized) {
+    return (
+      <div style={{ minHeight: '100vh', background: 'var(--bg-main)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="loader-mini" style={{ width: '40px', height: '40px', color: 'var(--primary-green)' }}></div>
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard">

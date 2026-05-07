@@ -27,8 +27,16 @@ export default function Reports() {
   const [playingAudio, setPlayingAudio] = useState<string | null>(null);
   const [notifs, setNotifs] = useState<any[]>([]);
   const [showNotifs, setShowNotifs] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
+    const user = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
+    if (!user) {
+      window.location.href = '/login';
+      return;
+    }
+    setIsAuthorized(true);
+
     const fetchData = async () => {
       try {
         const [logsRes, studentsRes, surahsRes, notifsRes] = await Promise.all([
@@ -82,6 +90,14 @@ export default function Reports() {
 
   const totalAyat = logs.reduce((acc, curr) => acc + (curr.endAyat - curr.startAyat + 1), 0);
   const excellentCount = logs.filter(l => l.quality === 'excellent' || l.predikat === 'Lancar').length;
+
+  if (!isAuthorized) {
+    return (
+      <div style={{ minHeight: '100vh', background: 'var(--bg-main)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="loader-mini" style={{ width: '40px', height: '40px', color: 'var(--primary-green)' }}></div>
+      </div>
+    );
+  }
 
   return (
     <div className="reports-page">

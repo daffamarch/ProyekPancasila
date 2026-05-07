@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { 
-  Smile, 
-  Meh, 
-  Frown, 
-  Save, 
+import {
+  Smile,
+  Meh,
+  Frown,
+  Save,
   Book,
   User,
   Hash,
@@ -118,7 +118,7 @@ export default function InputHarian() {
     }
   }, [formData.endAyat, selectedSurahData]);
 
-  const filteredSurahs = surahs.filter(s => 
+  const filteredSurahs = surahs.filter(s =>
     s.name.transliteration.id.toLowerCase().includes(searchSurah.toLowerCase()) ||
     s.name.translation.id.toLowerCase().includes(searchSurah.toLowerCase())
   );
@@ -148,7 +148,7 @@ export default function InputHarian() {
     e.preventDefault();
     if (isSubmitting) return;
     setIsSubmitting(true);
-    
+
     // Ensure scores are integers and handle empty strings
     const submissionData = {
       ...formData,
@@ -165,7 +165,7 @@ export default function InputHarian() {
       });
 
       if (!res.ok) throw new Error('Gagal menyimpan data');
-      
+
       const newLog = await res.json();
       setRecentLogs(prev => [newLog, ...prev.slice(0, 4)]);
 
@@ -190,7 +190,7 @@ export default function InputHarian() {
       setSearchSurah('');
       setSelectedSurahData(null);
       alert('Data setoran berhasil disimpan!');
-      
+
     } catch (err) {
       console.error(err);
       alert('Terjadi kesalahan saat menyimpan data.');
@@ -222,9 +222,9 @@ export default function InputHarian() {
               <div className="input-group">
                 <label>Nama Anak</label>
                 <div className="select-wrapper">
-                  <select 
-                    value={formData.studentId} 
-                    onChange={(e) => setFormData({...formData, studentId: e.target.value})}
+                  <select
+                    value={formData.studentId}
+                    onChange={(e) => setFormData({ ...formData, studentId: e.target.value })}
                     required
                   >
                     <option value="">Pilih Nama Anak</option>
@@ -239,14 +239,14 @@ export default function InputHarian() {
               <div className="input-group">
                 <label>Juz <Star size={14} className="req-star" /></label>
                 <div className="select-wrapper">
-                  <select 
-                    value={formData.juz} 
-                    onChange={(e) => setFormData({...formData, juz: e.target.value})}
+                  <select
+                    value={formData.juz}
+                    onChange={(e) => setFormData({ ...formData, juz: e.target.value })}
                     required
                   >
                     <option value="">Pilih Juz</option>
                     {[...Array(30)].map((_, i) => (
-                      <option key={i+1} value={i+1}>Juz {i+1}</option>
+                      <option key={i + 1} value={i + 1}>Juz {i + 1}</option>
                     ))}
                   </select>
                   <ChevronDown size={18} className="select-icon" />
@@ -256,16 +256,16 @@ export default function InputHarian() {
               <div className="input-group searchable-dropdown">
                 <label>Nama Surah <Star size={14} className="req-star" /></label>
                 <div className="input-wrapper">
-                  <input 
-                    type="text" 
-                    placeholder="Cari Surah..." 
+                  <input
+                    type="text"
+                    placeholder="Cari Surah..."
                     value={searchSurah}
                     onChange={(e) => {
                       setSearchSurah(e.target.value);
                       setShowSurahDropdown(true);
                       if (selectedSurahData) {
                         setSelectedSurahData(null);
-                        setFormData({...formData, surahName: ''});
+                        setFormData({ ...formData, surahName: '' });
                       }
                     }}
                     onFocus={() => setShowSurahDropdown(true)}
@@ -280,8 +280,8 @@ export default function InputHarian() {
                     {surahsError && <div className="dropdown-msg error">{surahsError}</div>}
                     {!isSurahsLoading && !surahsError && filteredSurahs.length === 0 && <div className="dropdown-msg">Surah tidak ditemukan.</div>}
                     {!isSurahsLoading && !surahsError && filteredSurahs.map((s) => (
-                      <div 
-                        key={s.number} 
+                      <div
+                        key={s.number}
                         className="dropdown-item"
                         onClick={() => {
                           const name = s.name.transliteration.id;
@@ -291,7 +291,7 @@ export default function InputHarian() {
                             name: name,
                             numberOfAyahs: s.numberOfVerses
                           });
-                          setFormData({...formData, surahName: name});
+                          setFormData({ ...formData, surahName: name });
                           setShowSurahDropdown(false);
                         }}
                       >
@@ -308,20 +308,20 @@ export default function InputHarian() {
 
               <div className="input-group">
                 <label>Dari Ayat</label>
-                <input 
-                  type="number" 
+                <input
+                  type="number"
                   value={formData.startAyat}
-                  onChange={(e) => setFormData({...formData, startAyat: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, startAyat: e.target.value })}
                 />
               </div>
 
               <div className="input-group">
                 <label>Sampai Ayat</label>
-                <input 
-                  type="number" 
+                <input
+                  type="number"
                   className={ayatError ? 'input-error' : ''}
                   value={formData.endAyat}
-                  onChange={(e) => setFormData({...formData, endAyat: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, endAyat: e.target.value })}
                 />
                 {ayatError && <span className="error-msg">{ayatError}</span>}
               </div>
@@ -330,20 +330,20 @@ export default function InputHarian() {
             <div className="form-grid">
               <div className="form-group">
                 <label>Halaqah</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   placeholder="Contoh: Abu Bakar"
                   value={formData.halaqah}
-                  onChange={(e) => setFormData({...formData, halaqah: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, halaqah: e.target.value })}
                 />
               </div>
               <div className="form-group">
                 <label>Pembimbing</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   placeholder="Nama Ustadz"
                   value={formData.pembimbing}
-                  onChange={(e) => setFormData({...formData, pembimbing: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, pembimbing: e.target.value })}
                 />
               </div>
             </div>
@@ -351,17 +351,17 @@ export default function InputHarian() {
             <div className="form-grid">
               <div className="form-group">
                 <label>Tanggal Setoran</label>
-                <input 
-                  type="date" 
+                <input
+                  type="date"
                   value={formData.tanggal}
-                  onChange={(e) => setFormData({...formData, tanggal: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, tanggal: e.target.value })}
                 />
               </div>
               <div className="form-group">
                 <label>Kualitas Hafalan</label>
-                <select 
+                <select
                   value={formData.quality}
-                  onChange={(e) => setFormData({...formData, quality: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, quality: e.target.value })}
                 >
                   {qualityOptions.map(opt => (
                     <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -375,40 +375,40 @@ export default function InputHarian() {
               <div className="scoring-grid">
                 <div className="score-item">
                   <label>Tajwid</label>
-                  <input 
-                    type="number" 
+                  <input
+                    type="number"
                     min="0" max="10" step="1"
                     placeholder="1-10"
                     value={formData.nilaiTajwid || ''}
                     onChange={(e) => {
                       const val = Math.min(10, Math.max(0, Math.floor(Number(e.target.value))));
-                      setFormData({...formData, nilaiTajwid: val});
+                      setFormData({ ...formData, nilaiTajwid: val });
                     }}
                   />
                 </div>
                 <div className="score-item">
                   <label>Makhraj</label>
-                  <input 
-                    type="number" 
+                  <input
+                    type="number"
                     min="0" max="10" step="1"
                     placeholder="1-10"
                     value={formData.nilaiMakhraj || ''}
                     onChange={(e) => {
                       const val = Math.min(10, Math.max(0, Math.floor(Number(e.target.value))));
-                      setFormData({...formData, nilaiMakhraj: val});
+                      setFormData({ ...formData, nilaiMakhraj: val });
                     }}
                   />
                 </div>
                 <div className="score-item">
                   <label>Kelancaran</label>
-                  <input 
-                    type="number" 
+                  <input
+                    type="number"
                     min="0" max="10" step="1"
                     placeholder="1-10"
                     value={formData.nilaiKelancaran || ''}
                     onChange={(e) => {
                       const val = Math.min(10, Math.max(0, Math.floor(Number(e.target.value))));
-                      setFormData({...formData, nilaiKelancaran: val});
+                      setFormData({ ...formData, nilaiKelancaran: val });
                     }}
                   />
                 </div>
@@ -431,16 +431,16 @@ export default function InputHarian() {
 
             <div className="form-group">
               <label>Catatan Tambahan (Opsional)</label>
-              <textarea 
+              <textarea
                 placeholder="Contoh: Perbaiki panjang pendek di ayat 5..."
                 value={formData.notes}
-                onChange={(e) => setFormData({...formData, notes: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               ></textarea>
             </div>
 
             <div className="form-actions">
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className={`btn-submit ${isSubmitting ? 'loading' : ''}`}
                 disabled={isSubmitting}
               >
